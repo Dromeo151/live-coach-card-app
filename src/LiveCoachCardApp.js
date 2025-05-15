@@ -3,39 +3,60 @@ import Papa from 'papaparse';
 
 const keywordConfig = {
   'Cost/Price': {
-    triggers: ['price', 'cost', 'budget', 'fee', 'rate', 'quote', 'pricing', 'how much', 'what does it run', 'expensive', 'cheap', 'charges', 'amount', 'estimate', 'affordability'],
-    response: "Can you share more about your budget or expectations on pricing so we can align better?"
+    triggers: ['price', 'cost', 'budget', 'fee', 'rate', 'quote', 'pricing', 'how much', 'what does it run', 'expensive', 'cheap', 'charges', 'amount', 'estimate', 'affordability', 'economic', 'value'],
+    response: {
+      en: "Can you share more about your budget or expectations on pricing so we can align better?",
+      es: "¿Podrías compartir más sobre tu presupuesto o expectativas de precio para poder alinearnos mejor?"
+    }
   },
   'Price Complaints': {
-    triggers: ['too expensive', 'overpriced', 'not worth', 'can’t afford', 'that’s steep', 'out of our range', 'a bit much', 'beyond budget', 'pricey', 'not in our price range', 'high cost'],
-    response: "We understand pricing is important. Would you be open to discussing what value you expect at that price point?"
+    triggers: ['too expensive', 'overpriced', 'not worth', 'can’t afford', 'that’s steep', 'out of our range', 'a bit much', 'beyond budget', 'pricey', 'not in our price range', 'high cost', 'exceeds our budget'],
+    response: {
+      en: "We understand pricing is important. Would you be open to discussing what value you expect at that price point?",
+      es: "Entendemos que el precio es importante. ¿Estarías dispuesto a comentar qué valor esperas por ese precio?"
+    }
   },
   'Contract Claim': {
     triggers: ['contract', 'agreement', 'signed', 'terms', 'deal', 'paperwork', 'arrangement', 'documentation', 'we agreed', 'what was promised', 'signed off'],
-    response: "Can you clarify the current agreement or terms you’re referring to?"
+    response: {
+      en: "Can you clarify the current agreement or terms you’re referring to?",
+      es: "¿Puedes aclarar el acuerdo o los términos actuales a los que te refieres?"
+    }
   },
   'Contract Time': {
     triggers: ['duration', 'renewal', 'start date', 'end date', 'term', 'length of agreement', 'valid until', 'commitment period', 'expires', 'timeline', 'how long does it last', 'time frame'],
-    response: "When does your current contract expire or are you looking for flexibility in term length?"
+    response: {
+      en: "When does your current contract expire or are you looking for flexibility in term length?",
+      es: "¿Cuándo vence tu contrato actual o estás buscando flexibilidad en la duración?"
+    }
   },
   'Installation': {
     triggers: ['install', 'installation', 'set up', 'setup', 'configured', 'configure', 'delivery', 'setting it up', 'implementation', 'get it running', 'hooking it up', 'initial setup', 'getting started hardware-wise', 'deployed'],
-    response: "Would you like to walk through how we handle setup and installation logistics?"
+    response: {
+      en: "Would you like to walk through how we handle setup and installation logistics?",
+      es: "¿Te gustaría que repasáramos cómo gestionamos la configuración e instalación?"
+    }
   },
   'Onboarding': {
     triggers: ['onboarding', 'training', 'kickoff', 'walkthrough', 'setup session', 'orientation', 'get started', 'first steps', 'introduction', 'ramp-up', 'new user help'],
-    response: "Would you like a preview of what the onboarding process looks like with our team?"
+    response: {
+      en: "Would you like a preview of what the onboarding process looks like with our team?",
+      es: "¿Te gustaría ver un adelanto de cómo es el proceso de incorporación con nuestro equipo?"
+    }
   }
 };
 
 export default function LiveCoachCardApp() {
   const [cards, setCards] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState('en');
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setLoading(true);
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
@@ -48,9 +69,9 @@ export default function LiveCoachCardApp() {
             if (match) {
               matches.push({
                 Name: category + ' Trigger',
-                Language: 'English',
+                Language: language === 'es' ? 'Español' : 'English',
                 Description: `Triggers when a customer mentions ${match} indicating ${category.toLowerCase()}.`,
-                RepResponse: config.response,
+                RepResponse: config.response[language],
                 Trigger: match,
                 Quote: row.content
               });
@@ -60,6 +81,7 @@ export default function LiveCoachCardApp() {
         });
         setCards(matches);
         setShowResults(true);
+        setLoading(false);
       }
     });
   };
@@ -94,14 +116,25 @@ export default function LiveCoachCardApp() {
   return (
     <div>
       <h1>Live Coach Card Extractor</h1>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Language: </label>
+        <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
       <label htmlFor="file-upload" style={{ display: 'inline-block', padding: '10px 20px', backgroundColor: '#0070f3', color: 'white', cursor: 'pointer', borderRadius: '5px', marginBottom: '10px' }}>Upload the CSV here</label>
       <input id="file-upload" type="file" accept=".csv" onChange={handleFileUpload} style={{ display: 'none' }} />
-      {showResults && (
+
+      {loading && <div style={{ margin: '20px 0', fontStyle: 'italic' }}>Analyzing your file... <span className="spinner">🔄</span></div>}
+
+      {showResults && !loading && (
         <div>
           <button onClick={downloadCSV} style={{ marginRight: '10px' }}>Download Results</button>
           <button onClick={handleReset}>Reset</button>
         </div>
       )}
+
       {cards.map((card, index) => (
         <div key={index} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem', borderRadius: '4px' }}>
           <p><strong>Name:</strong> {card.Name}</p>
