@@ -32,64 +32,66 @@ import Papa from 'papaparse';
 
 
 
+
 const keywordConfig = {
-  'Cost/Price': {
-    triggers: ['price', 'cost', 'budget', 'fee', 'rate', 'quote', 'pricing', 'how much', 'what does it run', 'expensive', 'cheap', 'charges', 'amount', 'estimate', 'affordability', 'economic', 'value', 'is there a cheaper plan', 'cost-effective solution', 'affordable option', 'how much does it cost', 'what's the charge', 'pricing model', 'cost structure', 'is it economical', 'price tag', 'any discounts', 'what's the rate', 'payment amount', 'monthly fee', 'recurring charge', 'do you offer bundles', 'cost breakdown', 'price comparison'],
+  "Cost/Price": {
+    triggers: ["price", "cost", "budget", "fee", "rate", "quote", "pricing", "how much", "what does it run", "expensive", "cheap", "charges", "amount", "estimate", "affordability", "economic", "value", "is there a cheaper plan", "cost-effective solution", "affordable option", "how much does it cost", "what's the charge", "pricing model", "cost structure", "is it economical", "price tag", "any discounts", "what's the rate", "payment amount", "monthly fee", "recurring charge", "do you offer bundles", ...
     response: {
       en: "Can you share more about your budget or expectations on pricing so we can align better?",
       es: "¿Podrías compartir más sobre tu presupuesto o expectativas de precio para poder alinearnos mejor?"
     }
   },
-  'Price Complaints': {
-    triggers: ['too expensive', 'overpriced', 'not worth', 'can't afford', 'that's steep', 'out of our range', 'a bit much', 'beyond budget', 'pricey', 'not in our price range', 'high cost', 'exceeds our budget', "that's overpriced for us", "not feasible cost-wise", "it's not worth that amount", 'pricing is too high', 'not affordable', 'we can't stretch that far', 'out of our league', 'too much for us', 'overpriced compared to others', 'exceeds our expectations', 'doesn't justify the cost', 'way above what we planned', 'our CFO will never approve that', 'hard to justify the spend', 'doesn't fit our pricing limits', 'unaffordable for our org'],
+  "Price Complaints": {
+    triggers: ["too expensive", "overpriced", "not worth", "can't afford", "that's steep", "out of our range", "a bit much", "beyond budget", "pricey", "not in our price range", "high cost", "exceeds our budget", "that's overpriced for us", "not feasible cost-wise", "it's not worth that amount", "pricing is too high", "not affordable", "we can't stretch that far", "out of our league", "too much for us", "overpriced compared to others", "exceeds our expectations", "doesn't justify the cost", "way above wh...
     response: {
       en: "We understand pricing is important. Would you be open to discussing what value you expect at that price point?",
       es: "Entendemos que el precio es importante. ¿Estarías dispuesto a comentar qué valor esperas por ese precio?"
     }
   },
-  'Contract Claim': {
-    triggers: ['contract', 'agreement', 'signed', 'terms', 'deal', 'paperwork', 'arrangement', 'documentation', 'we agreed', 'what was promised', 'signed off', 'you promised', 'we had a deal', 'per our contract', 'we had a commitment', 'agreement terms', 'what we discussed', 'signed documentation', 'legal terms', 'sales agreement', 'contract details', 'promised conditions', 'fulfillment of contract', 'SLAs', 'deliverables we agreed on', 'binding agreement', 'verbal contract'],
+  "Contract Claim": {
+    triggers: ["contract", "agreement", "signed", "terms", "deal", "paperwork", "arrangement", "documentation", "we agreed", "what was promised", "signed off", "you promised", "we had a deal", "per our contract", "we had a commitment", "agreement terms", "what we discussed", "signed documentation", "legal terms", "sales agreement", "contract details", "promised conditions", "fulfillment of contract", "SLAs", "deliverables we agreed on", "binding agreement", "verbal contract"],
     response: {
-      en: "Can you clarify the current agreement or terms you're referring to?",
+      en: "Can you clarify the current agreement or terms you’re referring to?",
       es: "¿Puedes aclarar el acuerdo o los términos actuales a los que te refieres?"
     }
   },
-  'Contract Time': {
-    triggers: ['duration', 'renewal', 'start date', 'end date', 'term', 'length of agreement', 'valid until', 'commitment period', 'expires', 'timeline', 'how long does it last', 'time frame', 'when does it renew', 'can we shorten the term', 'what's the minimum term', 'how long is the contract', 'does it auto-renew', 'contract window', 'annual vs monthly', 'commitment time', 'what's the time period', 'duration options', 'when does it start', 'billing cycle', 'trial length', 'lock-in period', 'when will it expire', 'short-term options'],
+  "Contract Time": {
+    triggers: ["duration", "renewal", "start date", "end date", "term", "length of agreement", "valid until", "commitment period", "expires", "timeline", "how long does it last", "time frame", "when does it renew", "can we shorten the term", "what's the minimum term", "how long is the contract", "does it auto-renew", "contract window", "annual vs monthly", "commitment time", "what's the time period", "duration options", "when does it start", "billing cycle", "trial length", "lock-in period", "when will ...
     response: {
       en: "When does your current contract expire or are you looking for flexibility in term length?",
       es: "¿Cuándo vence tu contrato actual o estás buscando flexibilidad en la duración?"
     }
   },
-  'Installation': {
-    triggers: ['install', 'installation', 'set up', 'setup', 'configured', 'configure', 'delivery', 'setting it up', 'implementation', 'get it running', 'hooking it up', 'initial setup', 'getting started hardware-wise', 'deployed', 'how do we get it up and running', 'do we need to install something', 'how long does setup take', 'integration steps', 'system setup', 'plug and play', 'deployment steps', 'how do we configure it', 'device installation', 'connecting the system', 'install requirements', 'technical setup', 'setup guide', 'field installation', 'service activation', 'hardware delivery'],
+  "Installation": {
+    triggers: ["install", "installation", "set up", "setup", "configured", "configure", "delivery", "setting it up", "implementation", "get it running", "hooking it up", "initial setup", "getting started hardware-wise", "deployed", "how do we get it up and running", "do we need to install something", "how long does setup take", "integration steps", "system setup", "plug and play", "deployment steps", "how do we configure it", "device installation", "connecting the system", "install requirements", "techni...
     response: {
       en: "Would you like to walk through how we handle setup and installation logistics?",
       es: "¿Te gustaría que repasáramos cómo gestionamos la configuración e instalación?"
     }
   },
-  'Onboarding': {
-    triggers: ['onboarding', 'training', 'kickoff', 'walkthrough', 'setup session', 'orientation', 'get started', 'first steps', 'introduction', 'ramp-up', 'new user help', 'initial walkthrough', 'getting started guide', 'first time using it', 'new user instructions', 'how do I log in', 'where to begin', 'how do we launch', 'onboarding documentation', 'help getting started', 'startup call', 'welcome session', 'first onboarding email', 'ramp-up steps'],
+  "Onboarding": {
+    triggers: ["onboarding", "training", "kickoff", "walkthrough", "setup session", "orientation", "get started", "first steps", "introduction", "ramp-up", "new user help", "initial walkthrough", "getting started guide", "first time using it", "new user instructions", "how do I log in", "where to begin", "how do we launch", "onboarding documentation", "help getting started", "startup call", "welcome session", "first onboarding email", "ramp-up steps"],
     response: {
       en: "Would you like a preview of what the onboarding process looks like with our team?",
       es: "¿Te gustaría ver un adelanto de cómo es el proceso de incorporación con nuestro equipo?"
     }
   },
-  'Support Concerns': {
-    triggers: ['who do we contact for help', 'support hours', 'do we get a dedicated rep', 'customer service', 'support desk', 'helpline', 'escalation contact', 'tech assistance', 'ticketing system', 'who do we ask', 'technical questions', 'where's the FAQ', 'follow-up help', 'after-sale support', 'do you have chat support', 'time to resolve'],
+  "Support Concerns": {
+    triggers: ["who do we contact for help", "support hours", "do we get a dedicated rep", "customer service", "support desk", "helpline", "escalation contact", "tech assistance", "ticketing system", "who do we ask", "technical questions", "where's the FAQ", "follow-up help", "after-sale support", "do you have chat support", "time to resolve"],
     response: {
       en: "Our support team is available — would you like me to introduce them now?",
       es: "Nuestro equipo de soporte está disponible, ¿quieres que te los presente ahora?"
     }
   },
-  'Results/ROI': {
-    triggers: ['what kind of ROI can we expect', 'will this improve our KPIs', 'can we see results fast', 'return on investment', 'performance outcome', 'impact report', 'analytics results', 'client success metrics', 'measurable results', 'product effectiveness', 'team improvements', 'business benefits', 'expected impact', 'what will change', 'gain vs spend', 'performance tracking'],
+  "Results/ROI": {
+    triggers: ["what kind of ROI can we expect", "will this improve our KPIs", "can we see results fast", "return on investment", "performance outcome", "impact report", "analytics results", "client success metrics", "measurable results", "product effectiveness", "team improvements", "business benefits", "expected impact", "what will change", "gain vs spend", "performance tracking"],
     response: {
       en: "Let me walk you through examples of results other teams achieved and what you can expect.",
       es: "Déjame mostrarte ejemplos de resultados logrados por otros equipos y qué puedes esperar."
     }
   }
 };
+
 
 
 
