@@ -35,6 +35,7 @@ import Papa from 'papaparse';
 
 
 
+
 const keywordConfig = {
   "Cost/Price": {
     triggers: [
@@ -46,8 +47,16 @@ const keywordConfig = {
       "cost breakdown", "price comparison"
     ],
     response: {
-      en: "Can you share more about your budget or expectations on pricing so we can align better?",
-      es: "¿Podrías compartir más sobre tu presupuesto o expectativas de precio para poder alinearnos mejor?"
+      en: [
+        "Can you share your budget so we align better?",
+        "We offer options for different budgets — let’s find the right one.",
+        "Let’s make sure the pricing fits your expectations."
+      ],
+      es: [
+        "¿Podrías compartir tu presupuesto para poder alinearnos?",
+        "Ofrecemos opciones para distintos presupuestos — busquemos la adecuada.",
+        "Veamos cómo adaptar la solución a tus expectativas de precio."
+      ]
     }
   },
   "Price Complaints": {
@@ -61,76 +70,20 @@ const keywordConfig = {
       "doesn't fit our pricing limits", "unaffordable for our org"
     ],
     response: {
-      en: "We understand pricing is important. Would you be open to discussing what value you expect at that price point?",
-      es: "Entendemos que el precio es importante. ¿Estarías dispuesto a comentar qué valor esperas por ese precio?"
-    }
-  },
-  "Contract Claim": {
-    triggers: [
-      "contract", "agreement", "signed", "terms", "deal", "paperwork", "arrangement", "documentation",
-      "we agreed", "what was promised", "signed off", "you promised", "we had a deal", "per our contract",
-      "commitment", "contract terms", "binding agreement", "SLAs", "service level agreement", "deliverables"
-    ],
-    response: {
-      en: "Can you clarify the current agreement or terms you’re referring to?",
-      es: "¿Puedes aclarar el acuerdo o los términos actuales a los que te refieres?"
-    }
-  },
-  "Contract Time": {
-    triggers: [
-      "duration", "renewal", "start date", "end date", "term", "length of agreement", "valid until",
-      "commitment period", "expires", "timeline", "how long does it last", "time frame", "contract window",
-      "billing cycle", "trial length", "lock-in period"
-    ],
-    response: {
-      en: "When does your current contract expire or are you looking for flexibility in term length?",
-      es: "¿Cuándo vence tu contrato actual o estás buscando flexibilidad en la duración?"
-    }
-  },
-  "Installation": {
-    triggers: [
-      "install", "installation", "set up", "setup", "configured", "configure", "delivery", "setting it up",
-      "implementation", "get it running", "hooking it up", "initial setup", "getting started hardware-wise",
-      "deployed", "plug and play", "deployment steps", "technical setup"
-    ],
-    response: {
-      en: "Would you like to walk through how we handle setup and installation logistics?",
-      es: "¿Te gustaría que repasáramos cómo gestionamos la configuración e instalación?"
-    }
-  },
-  "Onboarding": {
-    triggers: [
-      "onboarding", "training", "kickoff", "walkthrough", "setup session", "orientation", "get started",
-      "first steps", "introduction", "ramp-up", "new user help", "initial walkthrough", "getting started guide",
-      "welcome session", "startup call"
-    ],
-    response: {
-      en: "Would you like a preview of what the onboarding process looks like with our team?",
-      es: "¿Te gustaría ver un adelanto de cómo es el proceso de incorporación con nuestro equipo?"
-    }
-  },
-  "Support Concerns": {
-    triggers: [
-      "support", "customer service", "who do we contact for help", "support hours", "tech assistance", "ticketing system",
-      "dedicated rep", "account manager", "technical questions", "after-sale support", "follow-up help"
-    ],
-    response: {
-      en: "Our support team is available — would you like me to introduce them now?",
-      es: "Nuestro equipo de soporte está disponible, ¿quieres que te los presente ahora?"
-    }
-  },
-  "Results/ROI": {
-    triggers: [
-      "ROI", "return on investment", "performance outcome", "impact report", "analytics results", "success metrics",
-      "measurable results", "product effectiveness", "team improvements", "business benefits", "expected impact",
-      "what will change", "gain vs spend", "performance tracking"
-    ],
-    response: {
-      en: "Let me walk you through examples of results other teams achieved and what you can expect.",
-      es: "Déjame mostrarte ejemplos de resultados logrados por otros equipos y qué puedes esperar."
+      en: [
+        "We understand — would you like to explore other options?",
+        "Let’s talk about the value you expect at that price.",
+        "Maybe we can align on what’s most important to you."
+      ],
+      es: [
+        "Entendemos — ¿quieres explorar otras opciones?",
+        "Hablemos del valor que esperas por ese precio.",
+        "Quizás podamos adaptarnos a lo más importante para ti."
+      ]
     }
   }
 };
+
 
 
 
@@ -235,7 +188,7 @@ export default function LiveCoachCardApp() {
             <li><strong>Language:</strong> {card.Language}</li>
             <li><strong>Description:</strong> {card.Description}</li>
             <li><strong>Rep Response:</strong><br />
-              <em>"{card.RepResponse}"</em>
+              <em>"{Array.isArray(card.RepResponse) ? card.RepResponse[0] : card.RepResponse}"</em>
             </li>
             <li><strong>Trigger words/phrases:</strong><br />
               <code>{card.Trigger}</code>
