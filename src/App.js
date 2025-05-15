@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import Papa from 'papaparse';
+import './index.css';
 
 const keywordConfig = {
   'Cost/Price': {
@@ -66,9 +67,10 @@ export default function LiveCoachCardApp() {
   return (
     <div>
       <h1>Live Coach Card Extractor</h1>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <label htmlFor="file-upload" className="upload-label">Upload CSV</label>
+      <input id="file-upload" type="file" accept=".csv" onChange={handleFileUpload} className="file-input" />
       {cards.map((card, index) => (
-        <div key={index} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem' }}>
+        <div key={index} className="card">
           <p><strong>Name:</strong> {card.Name}</p>
           <p><strong>Language:</strong> {card.Language}</p>
           <p><strong>Description:</strong> {card.Description}</p>

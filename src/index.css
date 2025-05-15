@@ -1,7 +1,26 @@
+
 body {
   font-family: sans-serif;
   padding: 20px;
 }
-input {
-  margin-bottom: 16px;
+
+.upload-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: none;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
 }
