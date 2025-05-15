@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import Papa from 'papaparse';
-import './index.css';
 
 const keywordConfig = {
   'Cost/Price': {
@@ -32,6 +31,7 @@ const keywordConfig = {
 
 export default function LiveCoachCardApp() {
   const [cards, setCards] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -60,17 +60,51 @@ export default function LiveCoachCardApp() {
           }
         });
         setCards(matches);
+        setShowResults(true);
       }
     });
+  };
+
+  const handleReset = () => {
+    setCards([]);
+    setShowResults(false);
+    document.getElementById('file-upload').value = null;
+  };
+
+  const downloadCSV = () => {
+    const csvContent = [
+      ['Name', 'Language', 'Description', 'Rep Response', 'Trigger Phrase', 'Customer Quote'],
+      ...cards.map(card => [
+        card.Name,
+        card.Language,
+        card.Description,
+        card.RepResponse,
+        card.Trigger,
+        card.Quote
+      ])
+    ].map(e => e.join(",")).join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "live_coach_cards.csv");
+    link.click();
   };
 
   return (
     <div>
       <h1>Live Coach Card Extractor</h1>
-      <label htmlFor="file-upload" className="upload-label">Upload CSV</label>
-      <input id="file-upload" type="file" accept=".csv" onChange={handleFileUpload} className="file-input" />
+      <label htmlFor="file-upload" style={{ display: 'inline-block', padding: '10px 20px', backgroundColor: '#0070f3', color: 'white', cursor: 'pointer', borderRadius: '5px', marginBottom: '10px' }}>Upload the CSV here</label>
+      <input id="file-upload" type="file" accept=".csv" onChange={handleFileUpload} style={{ display: 'none' }} />
+      {showResults && (
+        <div>
+          <button onClick={downloadCSV} style={{ marginRight: '10px' }}>Download Results</button>
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      )}
       {cards.map((card, index) => (
-        <div key={index} className="card">
+        <div key={index} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem', borderRadius: '4px' }}>
           <p><strong>Name:</strong> {card.Name}</p>
           <p><strong>Language:</strong> {card.Language}</p>
           <p><strong>Description:</strong> {card.Description}</p>
