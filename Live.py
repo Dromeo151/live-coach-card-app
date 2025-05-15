@@ -2,15 +2,15 @@ import pandas as pd
 import json
 from io import StringIO
 
-def handler(request):
-    if request.method != "POST":
-        return {
-            "statusCode": 405,
-            "body": json.dumps({"error": "Method not allowed"})
-        }
-
+def handler(event, context=None):
     try:
-        body = request.get("body", "")
+        if event.get("httpMethod") != "POST":
+            return {
+                "statusCode": 405,
+                "body": json.dumps({"error": "Method not allowed"})
+            }
+
+        body = event.get("body", "")
         df = pd.read_csv(StringIO(body))
 
         keyword_config = {
@@ -58,7 +58,10 @@ def handler(request):
 
         return {
             "statusCode": 200,
-            "body": json.dumps(cards)
+            "body": json.dumps(cards),
+            "headers": {
+                "Content-Type": "application/json"
+            }
         }
 
     except Exception as e:
