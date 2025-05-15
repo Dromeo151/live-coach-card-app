@@ -41,12 +41,23 @@ const keywordConfig = {
       es: "¿Podrías compartir más sobre tu presupuesto o expectativas de precio para poder alinearnos mejor?"
     }
   },
+  
   "Price Complaints": {
-    triggers: ["too expensive", "overpriced", "not worth", "can't afford", "that's steep", "out of our range", "a bit much", "beyond budget", "pricey", "not in our price range", "high cost", "exceeds our budget", "that's overpriced for us", "not feasible cost-wise", "it's not worth that amount", "pricing is too high", "not affordable", "we can't stretch that far", "out of our league", "too much for us", "overpriced compared to others", "exceeds our expectations", "doesn't justify the cost", "way above wh...
+    triggers: [
+      "too expensive", "overpriced", "not worth", "can't afford", "that's steep",
+      "out of our range", "a bit much", "beyond budget", "pricey", "not in our price range",
+      "high cost", "exceeds our budget", "that's overpriced for us", "not feasible cost-wise",
+      "it's not worth that amount", "pricing is too high", "not affordable", "we can't stretch that far",
+      "out of our league", "too much for us", "overpriced compared to others", "exceeds our expectations",
+      "doesn't justify the cost", "way above what we planned", "our CFO will never approve that",
+      "hard to justify the spend", "doesn't fit our pricing limits", "unaffordable for our org"
+    ],
     response: {
       en: "We understand pricing is important. Would you be open to discussing what value you expect at that price point?",
       es: "Entendemos que el precio es importante. ¿Estarías dispuesto a comentar qué valor esperas por ese precio?"
     }
+  },
+
   },
   "Contract Claim": {
     triggers: ["contract", "agreement", "signed", "terms", "deal", "paperwork", "arrangement", "documentation", "we agreed", "what was promised", "signed off", "you promised", "we had a deal", "per our contract", "we had a commitment", "agreement terms", "what we discussed", "signed documentation", "legal terms", "sales agreement", "contract details", "promised conditions", "fulfillment of contract", "SLAs", "deliverables we agreed on", "binding agreement", "verbal contract"],
