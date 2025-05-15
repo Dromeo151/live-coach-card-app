@@ -2,11 +2,50 @@ import React, { useState } from 'react';
 import Papa from 'papaparse';
 import { UserCheck, DollarSign, FileText, Clock, Settings, BookOpen, HelpCircle, BarChart2 } from 'lucide-react';
 
-const keywordConfig = {...};  // Shortened for brevity, will paste full code in actual implementation
+const keywordConfig = {
+  "Competitor Mention": {
+    triggers: ["also evaluating", "comparing tools", "alternative provider", "other vendors", "how are you different", "competitive option", "alternative solutions", "better offer elsewhere"],
+    response: {
+      en: ["Replace with English response"],
+      es: ["Replace with Spanish response"],
+      de: ["Bitte teilen Sie uns Ihr Budget mit, damit wir uns besser abstimmen können."],
+      fr: ["Pouvez-vous partager votre budget pour que nous soyons besser aligniert ?"],
+      nl: ["Kunt u uw budget delen zodat we beter kunnen afstemmen?"]
+    }
+  },
+  "Decision Process": {
+    triggers: ["need approval", "manager needs to review", "procurement", "decision-maker", "legal team", "stakeholder input", "internal discussion"],
+    response: {
+      en: ["Replace with English response"],
+      es: ["Replace with Spanish response"],
+      de: ["Bitte teilen Sie uns Ihr Budget mit, damit wir uns besser abstimmen können."],
+      fr: ["Pouvez-vous partager votre budget pour que nous soyons besser aligniert ?"],
+      nl: ["Kunt u uw budget delen zodat we beter kunnen afstemmen?"]
+    }
+  },
+  "Urgency or Timeline": {
+    triggers: ["need this soon", "by next month", "in a rush", "asap", "timeline", "how fast can we", "project deadline", "urgent request"],
+    response: {
+      en: ["Replace with English response"],
+      es: ["Replace with Spanish response"],
+      de: ["Bitte teilen Sie uns Ihr Budget mit, damit wir uns besser abstimmen können."],
+      fr: ["Pouvez-vous partager votre budget pour que nous soyons besser aligniert ?"],
+      nl: ["Kunt u uw budget delen zodat we beter kunnen afstemmen?"]
+    }
+  }
+};
 
-const categoryLabels = {...};  // Shortened for brevity
+const categoryLabels = {
+  "Competitor Mention": "Competitor Mention",
+  "Decision Process": "Decision Process / Stakeholders",
+  "Urgency or Timeline": "Urgency or Timeline"
+};
 
-const categoryIcons = {...};  // Shortened for brevity
+const categoryIcons = {
+  "Competitor Mention": <UserCheck className="inline mr-2 text-cyan-500" />,
+  "Decision Process": <UserCheck className="inline mr-2 text-amber-500" />,
+  "Urgency or Timeline": <Clock className="inline mr-2 text-red-500" />
+};
 
 const categories = Object.keys(keywordConfig);
 
