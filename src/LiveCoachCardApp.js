@@ -180,16 +180,24 @@ export default function LiveCoachCardApp() {
         </div>
       )}
 
+      
       {cards.map((card, index) => (
-        <div key={index} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem', borderRadius: '4px' }}>
-          <p><strong>Name:</strong> {card.Name}</p>
-          <p><strong>Language:</strong> {card.Language}</p>
-          <p><strong>Description:</strong> {card.Description}</p>
-          <p><strong>Rep Response:</strong> {card.RepResponse}</p>
-          <p><strong>Trigger Phrase:</strong> {card.Trigger}</p>
-          <p><strong>Customer Quote:</strong> {card.Quote}</p>
+        <div key={index} style={{ backgroundColor: '#f0f4ff', padding: '1rem', marginBottom: '1rem', borderRadius: '8px' }}>
+          <h3>{card.Name.split(' ')[0]}</h3>
+          <ul>
+            <li><strong>Name:</strong> {card.Name}</li>
+            <li><strong>Language:</strong> {card.Language}</li>
+            <li><strong>Description:</strong> {card.Description}</li>
+            <li><strong>Rep Response:</strong><br />
+              <em>"{card.RepResponse}"</em>
+            </li>
+            <li><strong>Trigger words/phrases:</strong><br />
+              <code>{card.Trigger}</code>
+            </li>
+          </ul>
         </div>
       ))}
+
     </div>
   );
 }
