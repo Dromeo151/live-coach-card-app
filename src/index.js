@@ -1,10 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
 
-import React, { useState } from 'react';
-import Papa from 'papaparse';
-import { UserCheck, DollarSign, FileText, Clock, Settings, BookOpen, HelpCircle, BarChart2 } from 'lucide-react';
-
-// FULL CONTENT from canvas (already known) pasted here...
-// For brevity, the full content will be used exactly as shown in the user's last provided canvas
-
-// Since it's already confirmed valid, we'll continue with zip
-
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
