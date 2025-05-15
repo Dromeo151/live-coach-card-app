@@ -1,6 +1,6 @@
-
 {
   "version": 2,
-  "builds": [{ "src": "package.json", "use": "@vercel/static-build" }],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+  "builds": [{ "src": "api/Live.py", "use": "@vercel/python" }],
+  "routes": [{ "src": "/api/extract", "dest": "api/Live.py" }]
 }
+
