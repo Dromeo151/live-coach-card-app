@@ -1,3 +1,3 @@
 # Live Coach Card App
 
-Upload a CSV and detect common sales trigger phrases in multiple languages.
+React app to extract and categorize customer language from CSVs.
